@@ -9,12 +9,12 @@ namespace :breakfast do
     end
 
     desc "Build assets for production"
-    task :build_production => :environment do
+    task :build_production do
       exec(Breakfast::PRODUCTION_BUILD_COMMAND)
     end
 
     desc "Add a digest to non-fingerprinted assets"
-    task :digest => :environment do
+    task :digest do
       if Rails.configuration.breakfast.manifest
         Rails.configuration.breakfast.manifest.digest!
       else
@@ -23,7 +23,7 @@ namespace :breakfast do
     end
 
     desc "Remove out of date assets"
-    task :clean => :environment do
+    task :clean do
       if Rails.configuration.breakfast.manifest
         Rails.configuration.breakfast.manifest.clean!
       else
@@ -32,7 +32,7 @@ namespace :breakfast do
     end
 
     desc "Remove manifest and fingerprinted assets"
-    task :nuke => :environment do
+    task :nuke do
       if Rails.configuration.breakfast.manifest
         Rails.configuration.breakfast.manifest.nuke!
       else
@@ -47,7 +47,7 @@ module Breakfast
     def initialize
       super(
         <<~ERROR
-          Rails.configuration.breakfast.manifest is set to false. 
+          Rails.configuration.breakfast.manifest is set to false.
           Enable it by adding the following in your environment file:
 
             config.breakfast.manifest.digest = true
